@@ -1,26 +1,58 @@
-import React from 'react';
+import React, { useState } from 'react';
 import CartaoQRCode from '../CartaoQRCode/';
 
-function novoCardQRCode(nome, url) {
-  return <CartaoQRCode titulo={nome} endereco={url} />;
-}
+const PaginaPrincipal = () => {
+  const [nome, setNome] = useState('');
+  const [url, setUrl] = useState('');
+  const [cartoes, setCartoes] = useState([]);
 
-const PaginaPrincipal = () => (
-  <div className="instrucoes-topo">
-    <h1>Gerador de QR Code!</h1>
-    <h2>
-      Instruções: coloque a o nome e a url na caixa abaixo e clique em gerar QR
-      Code. Um novo card com o QR Code irá aparecer.
-    </h2>
+  function novoCardQRCode(nome, url) {
+    let card = {
+      nome: nome,
+      url: url,
+      id: new Date().getTime(),
+    };
 
-    <label>Nome</label>
-    <input name="nome" type="text" />
-    <label>URL</label>
-    <input name="url" type="text" />
-    <button name="botao" onClick={novoCardQRCode('titulo', 'URL')}>
-      Enviar
-    </button>
-  </div>
-);
+    let novoArranjoDeCartoes = [...cartoes];
+
+    novoArranjoDeCartoes.push(card);
+
+    setCartoes(novoArranjoDeCartoes);
+  }
+
+  const onChangeNome = (event) => {
+    setNome(event.target.value);
+  };
+
+  const onChangeUrl = (event) => {
+    setUrl(event.target.value);
+  };
+
+  return (
+    <div className="instrucoes-topo">
+      <h1>Gerador de QR Code!</h1>
+      <h2>
+        Instruções: coloque a o nome e a url na caixa abaixo e clique em gerar
+        QR Code. Um novo card com o QR Code irá aparecer.
+      </h2>
+
+      <label>Nome</label>
+      <input name="nome" type="text" onChange={onChangeNome} />
+      <label>URL</label>
+      <input name="url" type="text" onChange={onChangeUrl} />
+      <button
+        type="button"
+        name="botao"
+        onClick={() => novoCardQRCode(nome, url)}
+      >
+        Enviar
+      </button>
+
+      {cartoes.map((card) => (
+        <CartaoQRCode key={card.id} titulo={card.nome} endereco={card.url} />
+      ))}
+    </div>
+  );
+};
 
 export default PaginaPrincipal;
