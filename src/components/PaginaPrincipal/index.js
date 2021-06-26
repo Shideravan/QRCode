@@ -31,10 +31,10 @@ const PaginaPrincipal = () => {
   return (
     <div className="instrucoes-topo">
       <h1>Gerador de QR Code!</h1>
-      <h2>
+      <p>
         Instruções: coloque a o nome e a url na caixa abaixo e clique em gerar
         QR Code. Um novo card com o QR Code irá aparecer.
-      </h2>
+      </p>
 
       <label>Nome</label>
       <input name="nome" type="text" onChange={onChangeNome} />
